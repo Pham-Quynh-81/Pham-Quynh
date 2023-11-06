@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ent-grid products_cat_show">
+        <a class="item">   
+            <h3 class="nd_t" title="Hublot 42mm Nam 542.NX.1171.LR">Hublot 42mm Nam 542.NX.1171.LR</h3>
+            <span class="showgia area_price"><strong>145.000.000₫</strong>
+            <button class="deleteProductButton">Xóa</button>
+        </a>
+
+         <a class="item" >   
+            <h3 class="nd_t" title="Hublot 33mm Nam 542.NX.1171.LR">Hublot 33mm Nam 542.NX.1172.LR</h3>
+            <span class="showgia area_price"><strong>150.000.000₫</strong> 
+            <button class="deleteProductButton">Xóa</button>
+            </a>
+
+        <a class="item" >    
+            <h3 class="nd_t" title="Hublot 47mm Nam 542.NX.1171.LR">Hublot 47mm Nam 542.NX.1173.LR</h3>
+            <span class="showgia area_price"><strong>185.000.000₫</strong> 
+            <button class="deleteProductButton">Xóa</button>
+            </a>
+        <a class="item" >    
+            <h3 class="nd_t" title="Hublot 41mm Nam 542.NX.1171.LR">Hublot 41mm Nam 542.NX.1174.LR</h3>
+            <span class="showgia area_price"><strong>175.000.000₫</strong> 
+            <button class="deleteProductButton">Xóa</button>
+            </a>
+    </div>
+    <button id="addProductButton">Thêm Sản Phẩm</button>
+    <script>
+        // Tạo một mảng để lưu trữ các phần tử
+    const productElements = document.querySelectorAll('.ent-grid.products_cat_show .item');
+
+    const products = [];    
+
+    // Lặp qua mỗi phần tử và thu thập thông tin
+    productElements.forEach((element) => {
+    const title = element.querySelector('.nd_t').getAttribute('title');
+    const price = element.querySelector('.showgia strong').textContent;
+    
+    products.push({ title, price });
+});
+
+// In ra mảng chứa thông tin sản phẩm
+    // console.log(products);
+
+//////////////////////
+//  Lặp qua phần tử và thu thập thông tin (Thao tác xử lý cho button thêm)
+
+    document.getElementById('addProductButton').addEventListener('click', () => {
+    // Chúng ta có thể cho người dùng nhập thông tin sản phẩm mới
+    const title = prompt('Nhập tên sản phẩm:');
+    const price = prompt('Nhập giá sản phẩm:');
+
+    // Tạo một phần tử mới và thêm nó vào mảng
+    const newProduct = {
+        title: title,
+        price: price,
+    };
+    products.push(newProduct);
+
+    // Thêm phần tử mới vào trang HTML
+    const productList = document.querySelector('.ent-grid.products_cat_show');
+    const newProductElement = document.createElement('a');
+    newProductElement.classList.add('item');
+    newProductElement.innerHTML = `
+        <h3 class="nd_t" title="${newProduct.title}">${newProduct.title}</h3>
+        <span class="showgia area_price"><strong>${newProduct.price}₫</strong></span>
+        <button class="deleteProductButton">Xóa</button>
+    `;
+    productList.appendChild(newProductElement);
+    // In ra mảng sau khi thêm phần tử mới
+    console.log(products);
+});
+// Thao tác xóa
+//     productElements.forEach((element) => {
+//     const title = element.querySelector('.nd_t').getAttribute('title');
+//     const price = element.querySelector('.showgia strong').textContent;
+
+//     const deleteButton = element.querySelector('.deleteProductButton');
+//     deleteButton.addEventListener('click', () => {
+//         const index = products.findIndex(product => product.title === title);
+
+//         if (index !== -1) {
+//             products.splice(index, 1);
+//             element.remove();
+//             console.log(products);
+//         }
+//     });
+// });
+const productList = document.querySelector('.ent-grid.products_cat_show');
+
+productList.addEventListener('click', (event) => {
+    if (event.target.classList.contains('deleteProductButton')) {
+        const item = event.target.parentNode;
+        const title = item.querySelector('.nd_t').getAttribute('title');
+        const index = products.findIndex(product => product.title === title);
+
+        if (index !== -1) {
+            products.splice(index, 1);
+            item.remove();
+            console.log(products);
+        }
+    }
+});
+    </script>
+</body>
+</html>
